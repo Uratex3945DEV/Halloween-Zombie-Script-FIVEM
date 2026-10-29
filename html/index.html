@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zone Zombie</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@r3dz0n3/fontawesome-pro@6.3.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="root">
+    <div id="zombiezone" class="zz hidden">
+      <div class="zz__panel">
+        <div class="zz__eyebrow"><i class="fa-solid fa-skull"></i><span id="zz-subtitle">Événement Halloween</span></div>
+        <h1 class="zz__title" id="zz-title">Zone <span>Zombie</span></h1>
+        <p class="zz__desc" id="zz-desc"></p>
+
+        <div class="zz__rewards">
+          <div class="zz__reward">
+            <div class="zz__reward-icon"><i class="fa-solid fa-ticket"></i></div>
+            <small>Récompense</small>
+            <strong id="zz-tickets">—</strong>
+            <span>tickets Halloween / zombie</span>
+          </div>
+          <div class="zz__reward">
+            <div class="zz__reward-icon"><i class="fa-solid fa-gun"></i></div>
+            <small>Butin rare</small>
+            <strong id="zz-rare">—</strong>
+            <span>chance limitée</span>
+          </div>
+        </div>
+
+        <div class="zz__actions">
+          <button class="btn" id="zz-close"><i class="fa-solid fa-xmark"></i>Fermer</button>
+          <button class="btn btn--go" id="zz-join"><i class="fa-solid fa-play"></i>Rejoindre la zone</button>
+        </div>
+        <div class="zz__hint">ÉCHAP pour fermer</div>
+      </div>
+    </div>
+
+    <div id="waveannounce" class="wa hidden">
+      <div class="wa__inner">
+        <i class="fa-solid fa-skull wa__skull"></i>
+        <div class="wa__eyebrow">Halloween</div>
+        <div class="wa__title">VAGUE <b id="wa-wave">1</b></div>
+        <div class="wa__sub" id="wa-sub"></div>
+        <div class="wa__count"><span id="wa-count">0</span> ennemis</div>
+      </div>
+    </div>
+
+    <div id="zombiehud" class="zh hidden">
+      <div class="zh__bar">
+        <div class="zh__brand"><i class="fa-solid fa-skull"></i><span>Zone <b>Zombie</b></span></div>
+        <div class="zh__sep"></div>
+        <div class="zh__stat"><small>Vague</small><strong id="zh-wave">0</strong></div>
+        <div class="zh__sep"></div>
+        <div class="zh__stat"><small id="zh-label">Restants</small><strong id="zh-value">0</strong></div>
+        <div class="zh__sep"></div>
+        <div class="zh__quit"><kbd>/zombie</kbd><span>pour quitter</span></div>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

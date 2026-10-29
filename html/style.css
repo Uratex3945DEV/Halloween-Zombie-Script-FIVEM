@@ -1,0 +1,182 @@
+/* Polices Gilroy : déposer les .ttf dans html/fonts/ (sinon retombe sur system-ui) */
+@font-face { font-family: "SbGilroyLight";   src: url("./fonts/Gilroy-Light.ttf") format("truetype"); }
+@font-face { font-family: "GilroyLight";     src: url("./fonts/Gilroy-Light.ttf") format("truetype"); }
+@font-face { font-family: "SbGilroyRegular"; src: url("./fonts/Gilroy-Regular_0.ttf") format("truetype"); }
+@font-face { font-family: "GilroyRegular";   src: url("./fonts/Gilroy-Regular_0.ttf") format("truetype"); }
+@font-face { font-family: "SbGilroyMedium";  src: url("./fonts/Gilroy-Medium_0.ttf") format("truetype"); }
+@font-face { font-family: "GilroyMedium";    src: url("./fonts/Gilroy-Medium_0.ttf") format("truetype"); }
+@font-face { font-family: "SbGilroyBold";    src: url("./fonts/Gilroy-Bold_0.ttf") format("truetype"); }
+@font-face { font-family: "GilroyBold";      src: url("./fonts/Gilroy-Bold_0.ttf") format("truetype"); }
+
+:root {
+  --ui-accent: #03a1fc;
+  --Character-accent: rgb(3, 161, 252);
+
+  --ui-text: #ffffff;
+  --ui-text-muted: rgba(255, 255, 255, .68);
+
+  --ui-glass-bg: radial-gradient(50% 50% at 50% 50%, rgba(223,222,222,.34), rgba(28,28,28,.92));
+  --ui-glass-bg-hover: radial-gradient(50% 50% at 50% 50%, rgba(223,222,222,.54), rgba(40,40,40,.95));
+  --ui-glass-border: rgba(255, 255, 255, .12);
+  --ui-glass-border-strong: rgba(255, 255, 255, .35);
+  --ui-glass-shadow: 0 .6vh 2.2vh rgba(0, 0, 0, .35);
+  --ui-glass-inset: inset 0 .2vh .6vh rgba(255, 255, 255, .15);
+
+  --ui-radius-sm: .37vh;
+  --ui-radius-md: .93vh;
+  --ui-radius-lg: 1.85vh;
+
+  --ui-font-regular: "GilroyRegular", "SbGilroyRegular", system-ui, sans-serif;
+  --ui-font-medium:  "GilroyMedium",  "SbGilroyMedium",  system-ui, sans-serif;
+  --ui-font-bold:    "GilroyBold",    "SbGilroyBold",    system-ui, sans-serif;
+  --ui-font-light:   "GilroyLight",   "SbGilroyLight",   system-ui, sans-serif;
+
+  --animate-duration: .45s;
+
+  --Character-raise: rgba(255, 255, 255, .05);
+  --Character-border: rgba(255, 255, 255, .1);
+  --Character-lip: inset 0 .093vw 0 rgba(255, 255, 255, .14);
+  --Character-shadow: 0 1.4vh 3.2vh rgba(0, 0, 0, .55);
+
+  --Character-btn: linear-gradient(90deg, rgba(42,42,42,.74), rgba(42,42,42,.48));
+  --Character-btn-hover: linear-gradient(90deg, rgba(54,54,54,.82), rgba(54,54,54,.52));
+  --Character-btn-border: .0740740741vh solid rgba(255, 255, 255, .12);
+  --Character-btn-shadow: 0 .2vh .5vh rgba(0, 0, 0, .4);
+  --Character-btn-text-shadow: 0 .0926vh .3704vh rgba(0,0,0,.65), 0 .1852vh .5556vh rgba(0,0,0,.35);
+
+  --Character-btn-go: linear-gradient(90deg, rgba(34,197,140,.8), rgba(34,197,140,.5));
+  --Character-btn-go-hover: linear-gradient(90deg, rgba(44,214,156,.86), rgba(44,214,156,.56));
+  --Character-btn-go-border: .0740740741vh solid rgba(34, 197, 140, .6);
+
+  --Character-radius-md: .926vh;
+  --Character-ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+* { user-select: none; -webkit-user-select: none; box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: transparent; overflow: hidden; }
+#root { background: transparent; }
+.hidden { display: none !important; }
+
+/* ---------- Zone Zombie ---------- */
+.zz {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ui-font-regular);
+  color: var(--ui-text);
+  animation: zz-in var(--animate-duration) var(--Character-ease) both;
+}
+.zz__panel {
+  width: 52vh; padding: 3vh;
+  background: var(--ui-glass-bg);
+  border: .0741vh solid var(--ui-glass-border);
+  border-radius: var(--ui-radius-lg);
+  box-shadow: var(--ui-glass-shadow), var(--ui-glass-inset), 0 0 6vh rgba(var(--color-rgb, 3,161,252), .18);
+}
+.zz__eyebrow {
+  display: flex; align-items: center; gap: .9vh;
+  font-family: var(--ui-font-bold); font-size: 1.2vh; letter-spacing: .3vh; text-transform: uppercase;
+  color: rgb(var(--color-rgb, 3,161,252));
+}
+.zz__title { margin: 1.1vh 0 1.2vh; font-family: var(--ui-font-bold); font-size: 3.8vh; letter-spacing: .1vh; text-transform: uppercase; }
+.zz__title span { color: rgb(var(--color-rgb, 3,161,252)); }
+.zz__desc { margin: 0; font-size: 1.5vh; line-height: 1.55; color: var(--ui-text-muted); }
+
+.zz__rewards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1vh; margin: 2.4vh 0; }
+.zz__reward {
+  padding: 1.5vh;
+  background: var(--Character-raise);
+  border: .0741vh solid var(--Character-border);
+  border-radius: var(--ui-radius-md);
+  box-shadow: var(--Character-lip);
+}
+.zz__reward-icon { margin-bottom: 1vh; font-size: 1.8vh; color: rgb(var(--color-rgb, 3,161,252)); }
+.zz__reward small, .zz__reward span { display: block; font-size: 1.05vh; color: var(--ui-text-muted); }
+.zz__reward small { text-transform: uppercase; letter-spacing: .15vh; }
+.zz__reward strong { display: block; margin: .8vh 0 .4vh; font-family: var(--ui-font-bold); font-size: 1.9vh; }
+
+.zz__actions { display: flex; gap: 1.2vh; }
+.zz__actions .btn { flex: 1; }
+.zz__hint { margin-top: 1.6vh; text-align: center; font-size: 1.05vh; color: var(--ui-text-muted); opacity: .7; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .9vh;
+  padding: 1.3vh 2.4vh; cursor: pointer; color: #fff;
+  font-family: var(--ui-font-bold); font-size: 1.5vh;
+  background: var(--Character-btn);
+  border: var(--Character-btn-border);
+  border-radius: var(--Character-radius-md);
+  box-shadow: var(--Character-btn-shadow);
+  text-shadow: var(--Character-btn-text-shadow);
+  transition: all .2s var(--Character-ease);
+}
+.btn:hover { background: var(--Character-btn-hover); }
+.btn--go { background: var(--Character-btn-go); border: var(--Character-btn-go-border); }
+.btn--go:hover { background: var(--Character-btn-go-hover); }
+
+@keyframes zz-in {
+  from { opacity: 0; transform: translateY(1.2vh) scale(.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- HUD Zone Zombie ---------- */
+.zh {
+  position: fixed; left: 0; right: 0; bottom: 3vh;
+  display: flex; justify-content: center;
+  pointer-events: none;
+  font-family: var(--ui-font-regular);
+  color: var(--ui-text);
+  animation: zz-in var(--animate-duration) var(--Character-ease) both;
+}
+.zh__bar {
+  display: flex; align-items: center; gap: 2vh;
+  padding: 1.2vh 2.6vh;
+  background: var(--ui-glass-bg);
+  border: .0741vh solid var(--ui-glass-border);
+  border-radius: var(--ui-radius-lg);
+  box-shadow: var(--ui-glass-shadow), var(--ui-glass-inset), 0 0 4vh rgba(var(--color-rgb, 3,161,252), .18);
+}
+.zh__brand {
+  display: flex; align-items: center; gap: 1vh;
+  font-family: var(--ui-font-bold); font-size: 1.7vh; letter-spacing: .2vh; text-transform: uppercase;
+}
+.zh__brand i, .zh__brand b { color: rgb(var(--color-rgb, 3,161,252)); }
+.zh__sep { width: .0741vh; align-self: stretch; background: var(--ui-glass-border); }
+.zh__stat { display: flex; flex-direction: column; align-items: center; min-width: 6vh; }
+.zh__stat small { font-size: 1vh; text-transform: uppercase; letter-spacing: .15vh; color: var(--ui-text-muted); }
+.zh__stat strong { font-family: var(--ui-font-bold); font-size: 2.2vh; line-height: 1.2; }
+.zh__quit { display: flex; align-items: center; gap: .8vh; font-size: 1.2vh; color: var(--ui-text-muted); }
+.zh__quit kbd {
+  padding: .4vh .9vh; font-family: var(--ui-font-bold); font-size: 1.2vh; color: #fff;
+  background: var(--Character-raise); border: .0741vh solid var(--Character-border); border-radius: var(--ui-radius-sm);
+  box-shadow: var(--Character-lip);
+}
+
+
+/* ---------- Annonce de vague Halloween ---------- */
+.wa {
+  position: fixed; left: 0; right: 0; top: 14vh;
+  display: flex; justify-content: center; pointer-events: none; z-index: 50;
+  --wa-rgb: 255, 106, 43;
+}
+.wa.hidden { display: none; }
+.wa--boss { --wa-rgb: 220, 20, 40; }
+.wa__inner {
+  text-align: center; padding: 2.4vh 7vh 2.6vh; min-width: 38vh;
+  border-radius: var(--ui-radius-lg);
+  background: radial-gradient(60% 90% at 50% 40%, rgba(var(--wa-rgb), .28), rgba(10, 6, 4, .92));
+  border: .1vh solid rgba(var(--wa-rgb), .55);
+  box-shadow: 0 0 5vh rgba(var(--wa-rgb), .45), var(--Character-shadow);
+  opacity: 0; transform: scale(.7);
+}
+.wa--in .wa__inner { animation: waIn .55s cubic-bezier(.2, 1.3, .4, 1) forwards, waGlow 1.6s ease-in-out .55s infinite; }
+.wa--out .wa__inner { animation: waOut .6s ease-in forwards; }
+.wa__skull { font-size: 4.2vh; color: rgb(var(--wa-rgb)); filter: drop-shadow(0 0 1.2vh rgba(var(--wa-rgb), .9)); }
+.wa__eyebrow { margin-top: .8vh; font: 1.3vh var(--ui-font-medium); letter-spacing: .6vh; text-transform: uppercase; color: rgb(var(--wa-rgb)); }
+.wa__title { font: 6.4vh var(--ui-font-bold); letter-spacing: .5vh; color: #fff; text-shadow: 0 0 2vh rgba(var(--wa-rgb), .8); line-height: 1.1; }
+.wa__title b { color: rgb(var(--wa-rgb)); }
+.wa__sub { margin-top: .6vh; font: 1.9vh var(--ui-font-medium); color: var(--ui-text-muted); font-style: italic; }
+.wa__count { margin-top: 1.2vh; font: 1.5vh var(--ui-font-medium); color: #fff; text-transform: uppercase; letter-spacing: .3vh; }
+.wa__count span { color: rgb(var(--wa-rgb)); font-family: var(--ui-font-bold); font-size: 2.2vh; }
+@keyframes waIn  { from { opacity: 0; transform: scale(.7) translateY(-3vh); } to { opacity: 1; transform: scale(1) translateY(0); } }
+@keyframes waOut { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(1.08) translateY(-2vh); } }
+@keyframes waGlow { 0%, 100% { box-shadow: 0 0 3vh rgba(var(--wa-rgb), .35), var(--Character-shadow); } 50% { box-shadow: 0 0 7vh rgba(var(--wa-rgb), .7), var(--Character-shadow); } }

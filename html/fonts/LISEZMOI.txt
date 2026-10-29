@@ -1,0 +1,2 @@
+Optionnel : placez ici Gilroy-Regular_0.ttf, Gilroy-Medium_0.ttf, Gilroy-Bold_0.ttf puis suivez css/fonts.css.
+Par défaut le site utilise Montserrat (Google Fonts).
