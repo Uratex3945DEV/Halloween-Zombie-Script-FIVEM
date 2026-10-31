@@ -6,6 +6,13 @@ description 'Zone Zombie Halloween - instance 238, PvP bloqué et zombies agress
 version '1.2.0'
 ui_page 'html/index.html'
 files { 'html/index.html', 'html/style.css', 'html/app.js', 'html/fonts/*', 'html/sounds/*' }
-shared_script 'config.lua'
+dependencies { 'SpinFramework', 'oxmysql' }
+shared_scripts {
+    '@SpinFramework/api/spin.lua',
+    'config.lua'
+}
 client_script 'client.lua'
-server_script 'server.lua'
+server_scripts {
+    '@oxmysql/lib/MySQL.lua',
+    'server.lua'
+}

@@ -13,20 +13,43 @@
       <div class="zz__panel">
         <div class="zz__eyebrow"><i class="fa-solid fa-skull"></i><span id="zz-subtitle">Événement Halloween</span></div>
         <h1 class="zz__title" id="zz-title">Zone <span>Zombie</span></h1>
-        <p class="zz__desc" id="zz-desc"></p>
 
-        <div class="zz__rewards">
-          <div class="zz__reward">
-            <div class="zz__reward-icon"><i class="fa-solid fa-ticket"></i></div>
-            <small>Récompense</small>
-            <strong id="zz-tickets">—</strong>
-            <span>tickets Halloween / zombie</span>
+        <div class="zz__tabs">
+          <button class="zz__tab active" id="zz-tab-zone-btn"><i class="fa-solid fa-skull-crossbones"></i>Zone</button>
+          <button class="zz__tab" id="zz-tab-crew-btn"><i class="fa-solid fa-users"></i>Crew</button>
+        </div>
+
+        <div class="zz__scroll">
+          <div id="zz-tab-zone">
+            <p class="zz__desc" id="zz-desc"></p>
+
+            <div class="zz__contest hidden" id="zz-contest"><i class="fa-solid fa-hourglass-half"></i><span>Fin du concours dans</span><b id="zz-timer">—</b></div>
+
+            <div class="zz__rewards">
+              <div class="zz__reward">
+                <div class="zz__reward-icon"><i class="fa-solid fa-ticket"></i></div>
+                <small>Récompense</small>
+                <strong id="zz-tickets">—</strong>
+                <span>tickets Halloween</span>
+              </div>
+              <div class="zz__reward">
+                <div class="zz__reward-icon"><i class="fa-solid fa-gun"></i></div>
+                <small>Arme rare</small>
+                <strong id="zz-rare">—</strong>
+                <span>chance limitée</span>
+              </div>
+            </div>
+
+            <div class="zz__lb" id="zz-lb">
+              <div class="zz__lb-head"><i class="fa-solid fa-trophy"></i><span>Classement</span></div>
+              <div class="zz__lb-tabs" id="zz-lb-tabs"></div>
+              <div class="zz__lb-list" id="zz-lb-list"><div class="zz__lb-empty">Chargement…</div></div>
+              <div class="zz__lb-champ" id="zz-lb-champ"></div>
+            </div>
           </div>
-          <div class="zz__reward">
-            <div class="zz__reward-icon"><i class="fa-solid fa-gun"></i></div>
-            <small>Butin rare</small>
-            <strong id="zz-rare">—</strong>
-            <span>chance limitée</span>
+
+          <div id="zz-tab-crew" class="hidden">
+            <div id="zz-crew-body"><div class="zz__lb-empty">Chargement…</div></div>
           </div>
         </div>
 
@@ -35,6 +58,54 @@
           <button class="btn btn--go" id="zz-join"><i class="fa-solid fa-play"></i>Rejoindre la zone</button>
         </div>
         <div class="zz__hint">ÉCHAP pour fermer</div>
+
+        <div class="zz__choice hidden" id="zz-choice">
+          <div class="zz__choice-box">
+            <strong>Comment veux-tu entrer ?</strong>
+            <p class="zz__desc">Tu fais partie du crew <b id="zz-choice-crew"></b>.</p>
+            <button class="btn btn--go" id="zz-join-crew"><i class="fa-solid fa-users"></i>Avec mon crew (même monde)</button>
+            <button class="btn" id="zz-join-solo"><i class="fa-solid fa-user"></i>Seul</button>
+            <button class="zz__mini" id="zz-choice-cancel">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="zombieconfig" class="zc hidden">
+      <div class="zc__panel">
+        <div class="zz__eyebrow"><i class="fa-solid fa-gear"></i><span>Réservé aux fondateurs</span></div>
+        <h1 class="zz__title">Config <span>Zombie</span></h1>
+        <div class="zc__online" id="zc-online"><i class="fa-solid fa-skull"></i><span id="zc-online-text">En zone : …</span></div>
+        <div class="zc__games" id="zc-games"></div>
+        <div class="zc__contest hidden" id="zc-contest">
+          <div class="zc__contest-head"><i class="fa-solid fa-hourglass-half"></i><span>Concours</span><b id="zc-timer">—</b></div>
+          <div class="zc__winner" id="zc-winner"></div>
+        </div>
+        <div class="zz__tabs">
+          <button class="zz__tab active" id="zc-tab-settings-btn"><i class="fa-solid fa-sliders"></i>Réglages</button>
+          <button class="zz__tab" id="zc-tab-crews-btn"><i class="fa-solid fa-users"></i>Crews <span id="zc-crew-badge" class="zc__badge hidden">0</span></button>
+        </div>
+        <div class="zc__list" id="zc-list"></div>
+        <div class="zc__list hidden" id="zc-crews"></div>
+        <div class="zz__actions">
+          <button class="btn" id="zc-close"><i class="fa-solid fa-xmark"></i>Fermer</button>
+          <button class="btn" id="zc-reset"><i class="fa-solid fa-rotate-left"></i>Réinitialiser</button>
+          <button class="btn btn--go" id="zc-save"><i class="fa-solid fa-floppy-disk"></i>Enregistrer</button>
+        </div>
+        <div class="zz__hint">ÉCHAP pour fermer</div>
+      </div>
+    </div>
+
+    <div id="zombieleave" class="zl hidden">
+      <div class="zl__panel">
+        <div class="zl__icon"><i class="fa-solid fa-door-open"></i></div>
+        <h2 class="zl__title">Quitter la zone ?</h2>
+        <p class="zl__text">Êtes-vous sûr de vouloir quitter la zone zombie ?<br>Ta progression de la session s'arrête ici.</p>
+        <div class="zl__actions">
+          <button class="btn btn--go" id="zl-confirm"><i class="fa-solid fa-check"></i>Confirmer</button>
+          <button class="btn btn--danger" id="zl-cancel"><i class="fa-solid fa-xmark"></i>Annuler</button>
+        </div>
+        <div class="zz__hint">ENTRÉE confirmer · ÉCHAP ou K annuler</div>
       </div>
     </div>
 
@@ -55,8 +126,10 @@
         <div class="zh__stat"><small>Vague</small><strong id="zh-wave">0</strong></div>
         <div class="zh__sep"></div>
         <div class="zh__stat"><small id="zh-label">Restants</small><strong id="zh-value">0</strong></div>
+        <div class="zh__sep hidden" id="zh-contest-sep"></div>
+        <div class="zh__stat hidden" id="zh-contest"><small>Fin du concours</small><strong id="zh-timer">—</strong></div>
         <div class="zh__sep"></div>
-        <div class="zh__quit"><kbd>/zombie</kbd><span>pour quitter</span></div>
+        <div class="zh__quit"><kbd>K</kbd><span>pour quitter</span></div>
       </div>
     </div>
   </div>
