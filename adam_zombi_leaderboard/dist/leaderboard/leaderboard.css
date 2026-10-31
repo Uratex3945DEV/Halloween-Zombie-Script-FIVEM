@@ -1,0 +1,476 @@
+/* ==========================================================
+   Leaderboard DUI — 1920x1080, tout en vh (1vh = 10.8px)
+   Style : verre dépoli sombre (UI_GUIDE), police Gilroy.
+   NB : pas de backdrop-filter (inutile sur une DUI : il ne
+   floute pas le monde du jeu), pas de :hover (pas de souris).
+   ========================================================== */
+
+/* Polices : on déclare les deux familles (GilroyX et SbGilroyX) */
+@font-face { font-family: "GilroyLight";      src: url("../fonts/Gilroy-Light.ttf") format("truetype"); }
+@font-face { font-family: "SbGilroyLight";    src: url("../fonts/Gilroy-Light.ttf") format("truetype"); }
+@font-face { font-family: "GilroyRegular";    src: url("../fonts/Gilroy-Regular_0.ttf") format("truetype"); }
+@font-face { font-family: "SbGilroyRegular";  src: url("../fonts/Gilroy-Regular_0.ttf") format("truetype"); }
+@font-face { font-family: "GilroyMedium";     src: url("../fonts/Gilroy-Medium_0.ttf") format("truetype"); }
+@font-face { font-family: "SbGilroyMedium";   src: url("../fonts/Gilroy-Medium_0.ttf") format("truetype"); }
+@font-face { font-family: "GilroySBold";      src: url("../fonts/Gilroy-SemiBold_0.ttf") format("truetype"); }
+@font-face { font-family: "SbGilroySBold";    src: url("../fonts/Gilroy-SemiBold_0.ttf") format("truetype"); }
+@font-face { font-family: "GilroyBold";       src: url("../fonts/Gilroy-Bold_0.ttf") format("truetype"); }
+@font-face { font-family: "SbGilroyBold";     src: url("../fonts/Gilroy-Bold_0.ttf") format("truetype"); }
+
+:root {
+    /* Accent (surchargeable via le message Lua : color = "#rrggbb") */
+    --color-rgb: 239, 35, 60;
+    --accent: rgb(var(--color-rgb));
+    --accent-20: rgba(var(--color-rgb), .2);
+    --accent-35: rgba(var(--color-rgb), .35);
+    --accent-60: rgba(var(--color-rgb), .6);
+
+    --text: #ffffff;
+    --text-muted: rgba(255, 255, 255, .68);
+
+    /* Verre */
+    --plate: radial-gradient(50% 50% at 50% 50%, #64646480, #141414d6);
+    --plate-flat: rgba(20, 20, 20, .72);
+    --raise: rgba(255, 255, 255, .05);
+    --border: rgba(255, 255, 255, .12);
+    --lip: inset 0 .093vh 0 rgba(255, 255, 255, .14);
+    --shadow: 0 1.4vh 3.2vh rgba(0, 0, 0, .55);
+
+    --radius-sm: .37vh;
+    --radius-md: .926vh;
+    --radius-lg: 1.852vh;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+
+    --font-regular: "GilroyRegular", "SbGilroyRegular", system-ui, sans-serif;
+    --font-medium: "GilroyMedium", "SbGilroyMedium", system-ui, sans-serif;
+    --font-sbold: "GilroySBold", "SbGilroySBold", system-ui, sans-serif;
+    --font-bold: "GilroyBold", "SbGilroyBold", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;   /* indispensable : la DUI est une texture avec alpha */
+    overflow: hidden;
+    color: var(--text);
+    font-family: var(--font-regular);
+}
+
+/* ---------- Conteneur : 4 classements sur une ligne ---------- */
+.stage {
+    position: absolute;
+    top: 3.5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 96vw;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.leaderboard-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2.2vh;
+    align-items: start;
+}
+
+/* ---------- Carte ---------- */
+.leaderboard {
+    position: relative;
+    background: var(--plate);
+    border: .0741vh solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow), var(--lip);
+    overflow: hidden;
+    animation: lb-in .6s var(--ease) backwards;
+}
+.leaderboard:nth-child(1) { animation-delay: .10s; }
+.leaderboard:nth-child(2) { animation-delay: .20s; }
+.leaderboard:nth-child(3) { animation-delay: .30s; }
+.leaderboard:nth-child(4) { animation-delay: .40s; }
+.leaderboard:nth-child(5) { animation-delay: .50s; }
+
+/* liseré d'accent en haut de la carte */
+.leaderboard::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: .3vh;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    box-shadow: 0 0 1.6vh var(--accent-60);
+    z-index: 2;
+}
+
+/* ---------- En-tête ---------- */
+.leaderboard-header {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: var(--font-bold);
+    font-size: 2.5vh;
+    letter-spacing: .3vh;
+    padding: 2.2vh 0 1.8vh;
+    background: linear-gradient(180deg, var(--accent-35), transparent);
+    border-bottom: .0741vh solid var(--border);
+    text-shadow: 0 .2vh .8vh rgba(0, 0, 0, .65);
+}
+/* reflet qui passe lentement sur l'en-tête */
+.leaderboard-header::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 30%;
+    left: -40%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .14), transparent);
+    animation: sweep 7s ease-in-out infinite;
+}
+
+/* ---------- Tableau (même structure grid qu'avant) ---------- */
+.leaderboard-table {
+    display: grid;
+    grid-template-columns: 0.7fr 0.7fr 2fr 1fr;
+    padding: 1.2vh 1.2vh 1.4vh;
+}
+
+.column-header {
+    grid-row: 1;
+    padding: .6vh .4vh 1vh;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: var(--font-sbold);
+    font-size: 1.35vh;
+    letter-spacing: .2vh;
+    color: var(--text-muted);
+    border-bottom: .0741vh solid var(--border);
+}
+
+.column-content {
+    grid-column: 1 / span 4;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: 0.7fr 0.7fr 2fr 1fr;
+    grid-auto-rows: minmax(4.4vh, auto);
+    row-gap: .5vh;
+    padding-top: 1vh;
+}
+
+.player-row { display: contents; }
+
+/* ---------- Cellules ---------- */
+.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .4vh .5vh;
+    background: var(--raise);
+    font-family: var(--font-medium);
+    font-size: 1.7vh;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    animation: row-in .5s var(--ease) backwards;
+    animation-delay: calc(var(--i, 0) * 45ms + .35s);
+}
+.player-row:nth-child(even) .cell { background: rgba(255, 255, 255, .028); }
+
+/* coins arrondis aux extrémités de chaque ligne */
+.player-row .cell:first-child { border-radius: var(--radius-md) 0 0 var(--radius-md); }
+.player-row .cell:last-child  { border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+
+.cell.name-col {
+    justify-content: flex-start;
+    text-align: left;
+    padding-left: 1vh;
+    font-family: var(--font-sbold);
+}
+
+.cell.stat-col {
+    font-family: var(--font-bold);
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 1.2vh var(--accent-35);
+}
+
+/* ---------- Avatar ---------- */
+.discord-pfp,
+.avatar-fallback {
+    width: 3.4vh;
+    height: 3.4vh;
+    border-radius: 50%;
+    border: .185vh solid var(--accent-60);
+    object-fit: cover;
+    flex: none;
+}
+.avatar-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-bold);
+    font-size: 1.5vh;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, var(--accent-60), rgba(20, 20, 20, .9));
+}
+
+/* ---------- Badge de rang ---------- */
+.rank-badge {
+    min-width: 2.8vh;
+    height: 2.8vh;
+    padding: 0 .6vh;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    font-family: var(--font-bold);
+    font-size: 1.6vh;
+    color: var(--text-muted);
+}
+
+/* ---------- Podium (top 1 / 2 / 3) ---------- */
+.top-1 { --tier: 255, 215, 0; }
+.top-2 { --tier: 192, 192, 192; }
+.top-3 { --tier: 205, 127, 50; }
+
+.leaderboard .player-row[class*="top-"] .cell {
+    background: rgba(var(--tier), .11);
+}
+.leaderboard .player-row[class*="top-"] .cell:first-child {
+    box-shadow: inset .45vh 0 0 rgb(var(--tier));
+}
+.player-row[class*="top-"] .discord-pfp,
+.player-row[class*="top-"] .avatar-fallback {
+    border-color: rgb(var(--tier));
+    box-shadow: 0 0 1.2vh rgba(var(--tier), .6);
+}
+.player-row[class*="top-"] .rank-badge {
+    color: #14110a;
+    background: linear-gradient(135deg, rgb(var(--tier)), rgba(var(--tier), .65));
+    box-shadow: 0 0 1.2vh rgba(var(--tier), .55);
+    text-shadow: none;
+}
+.player-row[class*="top-"] .cell.name-col {
+    color: rgb(var(--tier));
+    animation: row-in .5s var(--ease) backwards, tier-glow 3s ease-in-out infinite alternate;
+    animation-delay: calc(var(--i, 0) * 45ms + .35s), 0s;
+}
+
+/* ---------- Ligne vide ---------- */
+.empty-row {
+    grid-column: 1 / span 4;
+    padding: 2vh 0;
+    text-align: center;
+    font-family: var(--font-regular);
+    font-size: 1.5vh;
+    color: var(--text-muted);
+}
+
+/* ---------- Barre des réseaux ---------- */
+.social-links-container {
+    position: fixed;
+    bottom: 4.5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    gap: 4vh;
+    padding: 1.6vh 3.2vh;
+    background: var(--plate-flat);
+    border: .0741vh solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow), var(--lip), 0 0 3vh var(--accent-20);
+    animation: social-in .8s var(--ease) .8s backwards;
+}
+.social-links-container::before {
+    content: "";
+    position: absolute;
+    inset: auto 12% 0 12%;
+    height: .25vh;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    box-shadow: 0 0 1.4vh var(--accent-60);
+}
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 1.2vh;
+}
+.social-icon {
+    width: 4vh;
+    height: 4vh;
+    object-fit: contain;
+    filter: brightness(.9) drop-shadow(0 .2vh .5vh rgba(0, 0, 0, .5));
+}
+.social-name {
+    font-family: var(--font-sbold);
+    font-size: 1.6vh;
+    letter-spacing: .12vh;
+    text-transform: uppercase;
+    color: var(--text);
+    opacity: .9;
+}
+
+/* ---------- 5 classements ou plus : on resserre un peu ---------- */
+.leaderboard-container.dense { gap: 1.6vh; }
+.leaderboard-container.dense .leaderboard-header { font-size: 2.1vh; letter-spacing: .2vh; }
+.leaderboard-container.dense .cell { font-size: 1.55vh; }
+.leaderboard-container.dense .cell.name-col { padding-left: .6vh; }
+
+/* ---------- Mises à jour en direct ---------- */
+/* après le premier affichage : plus d'animation d'entrée à chaque rafraîchissement */
+.column-content.static .cell { animation: none; }
+.column-content.static .player-row[class*="top-"] .cell.name-col {
+    animation: tier-glow 3s ease-in-out infinite alternate;
+}
+/* ligne qui vient de progresser : flash d'accent */
+.column-content.static .player-row.flash .cell { animation: row-flash 1.6s ease-out 1; }
+
+/* ---------- Bannière du top 1 global (couronne) ---------- */
+.champion {
+    --tier: 255, 215, 0;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 3.2vh;
+    padding: 1.6vh 4vh;
+    background:
+        linear-gradient(90deg, rgba(var(--tier), .2), rgba(var(--tier), .03) 45%, transparent),
+        var(--plate);
+    border: .0741vh solid rgba(var(--tier), .4);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow), var(--lip), 0 0 3.2vh rgba(var(--tier), .18);
+    animation: lb-in .6s var(--ease) backwards;
+}
+/* liseré doré en haut */
+.champion::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: .3vh;
+    background: linear-gradient(90deg, transparent, rgb(var(--tier)), transparent);
+    box-shadow: 0 0 1.6vh rgba(var(--tier), .7);
+}
+/* reflet qui traverse la bannière */
+.champion::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 18%;
+    left: -30%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .1), transparent);
+    animation: sweep 9s ease-in-out infinite;
+}
+
+.crown {
+    width: 9.5vh;
+    height: 7.7vh;
+    filter: drop-shadow(0 0 1.4vh rgba(var(--tier), .75));
+    animation: crown-float 3.2s ease-in-out infinite alternate;
+}
+
+.champ-info { min-width: 0; }
+.champ-label {
+    font-family: var(--font-sbold);
+    font-size: 1.45vh;
+    letter-spacing: .35vh;
+    text-transform: uppercase;
+    color: rgba(var(--tier), .85);
+}
+.champ-name {
+    font-family: var(--font-bold);
+    font-size: 4.6vh;
+    line-height: 1.12;
+    color: rgb(var(--tier));
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 0 1.8vh rgba(var(--tier), .55), 0 .2vh .6vh rgba(0, 0, 0, .6);
+}
+.champ-total {
+    font-family: var(--font-medium);
+    font-size: 1.8vh;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .15vh;
+}
+
+.champ-chips { display: flex; gap: 1vh; }
+.chip {
+    min-width: 11.4vh;
+    padding: .9vh 1.2vh;
+    text-align: center;
+    background: var(--raise);
+    border: .0741vh solid var(--border);
+    border-radius: var(--radius-md);
+}
+.chip-title {
+    font-family: var(--font-sbold);
+    font-size: 1.2vh;
+    letter-spacing: .12vh;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.chip-value {
+    font-family: var(--font-bold);
+    font-size: 2.4vh;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+}
+.chip.zero .chip-value { color: var(--text-muted); opacity: .6; }
+
+/* personne n'a encore de kill */
+.champion.empty { --tier: 160, 160, 160; }
+.champion.empty .crown { opacity: .45; filter: grayscale(1); animation: none; }
+.champion.empty .champ-name { font-size: 3.2vh; text-shadow: none; }
+.champion.empty .champ-chips { display: none; }
+
+/* le champion change : petit "pop" */
+.champion.pop .champ-name,
+.champion.pop .crown { animation: champ-pop .9s var(--ease) 1; }
+
+/* ---------- Animations ---------- */
+@keyframes lb-in {
+    from { opacity: 0; transform: translateY(2vh) scale(.98); }
+    to   { opacity: 1; transform: none; }
+}
+/* la barre sociale est déjà centrée avec translateX : animation dédiée */
+@keyframes social-in {
+    from { opacity: 0; transform: translate(-50%, 2vh); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+}
+@keyframes row-in {
+    from { opacity: 0; transform: translateX(-1.4vh); }
+    to   { opacity: 1; transform: none; }
+}
+@keyframes sweep {
+    0%, 55% { left: -40%; }
+    100%    { left: 130%; }
+}
+@keyframes tier-glow {
+    from { text-shadow: 0 0 .4vh rgba(var(--tier), .25); }
+    to   { text-shadow: 0 0 1.5vh rgba(var(--tier), .85); }
+}
+@keyframes row-flash {
+    from { background-color: var(--accent-60); }
+}
+@keyframes crown-float {
+    from { transform: translateY(.3vh) rotate(-1.5deg); }
+    to   { transform: translateY(-.5vh) rotate(1.5deg); }
+}
+@keyframes champ-pop {
+    0%   { transform: scale(1); }
+    30%  { transform: scale(1.12); filter: brightness(1.5); }
+    100% { transform: scale(1); }
+}
+
+/* ID unique du joueur */
+.cell.name-col .uid { margin-left: .4vh; font-size: .75em; opacity: .65; letter-spacing: .05vh; }

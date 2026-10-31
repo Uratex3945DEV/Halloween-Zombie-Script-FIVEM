@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="leaderboard/leaderboard.css">
+</head>
+
+<body>
+
+    <div class="stage">
+        <!-- Top 1 global (tous modes) : bannière pleine largeur au-dessus des classements -->
+        <div class="champion empty" id="champion">
+            <svg class="crown" viewBox="0 0 64 52" aria-hidden="true">
+                <defs>
+                    <linearGradient id="crownGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="#fff2a8" />
+                        <stop offset=".5" stop-color="#ffd700" />
+                        <stop offset="1" stop-color="#c58a00" />
+                    </linearGradient>
+                </defs>
+                <path d="M4 40 L8 14 L22 28 L32 8 L42 28 L56 14 L60 40 Z" fill="url(#crownGrad)" />
+                <rect x="4" y="42" width="56" height="6" rx="2.5" fill="url(#crownGrad)" />
+                <circle cx="8" cy="11" r="3.4" fill="#fff2a8" />
+                <circle cx="32" cy="5" r="3.8" fill="#fff2a8" />
+                <circle cx="56" cy="11" r="3.4" fill="#fff2a8" />
+            </svg>
+
+            <div class="champ-info">
+                <div class="champ-label" id="champ-label">Meilleur chasseur</div>
+                <div class="champ-name" id="champ-name">Aucun champion</div>
+                <div class="champ-total" id="champ-total">En attente du premier kill</div>
+            </div>
+
+            <div class="champ-chips" id="champ-chips"></div>
+        </div>
+
+        <!-- Les classements sont créés dynamiquement par leaderboard.js (selon Config.boards côté Lua) -->
+        <div class="leaderboard-container" id="boards"></div>
+    </div>
+
+    <div class="social-links-container">
+        <div class="social-link">
+            <img src="leaderboard/discord.png" alt="Discord" class="social-icon">
+            <span class="social-name">Discord : discord.gg/skyposv3</span>
+        </div>
+        <div class="social-link">
+            <img src="leaderboard/twitch.png" alt="Twitch" class="social-icon">
+            <span class="social-name">Twitch : Uratex3945</span>
+        </div>
+        <div class="social-link">
+            <img src="leaderboard/tiktok.png" alt="TikTok" class="social-icon">
+            <span class="social-name">Tiktok : @Uratex3945</span>
+        </div>
+        <div class="social-link">
+            <img src="leaderboard/ytb.png" alt="YouTube" class="social-icon">
+            <span class="social-name">YouTube : @Uratex3945</span>
+        </div>
+    </div>
+
+    <script src="leaderboard/leaderboard.js"></script>
+</body>
+
+</html>
